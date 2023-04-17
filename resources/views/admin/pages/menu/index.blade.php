@@ -146,12 +146,12 @@
                     <div class="modal-body">
 
                         <div class="form-group">
-                            <label for="formGroupExampleInput">Tên thực đơn</label>
+                            <label for="menu-name">Tên thực đơn</label>
                             <input type="text" class="form-control" id="menu-name" name="name"
                                 placeholder="Nhập tên thực đơn">
                         </div>
                         <div class="form-group">
-                            <label for="formGroupExampleInput">Mô tả</label>
+                            <label for="menu-description">Mô tả</label>
                             <textarea class="form-control" id="menu-description" name="description" >
                         </div>
                         <div class="modal-footer">
