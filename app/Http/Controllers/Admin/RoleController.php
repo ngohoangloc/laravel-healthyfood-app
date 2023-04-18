@@ -30,12 +30,12 @@ class RoleController extends Controller
         return redirect()->route('admin.role.index');
     }
 
-    public function edit($id, Request $request)
+    public function update($id, Request $request)
     {
         $this->role->find($id)->update([
             'name' => $request->name,
         ]);
-        
+
         return redirect()->route('admin.role.index');
     }
 

@@ -21,4 +21,30 @@ class MenuController extends Controller
         $menus = $this->menu->all();
         return view('admin.pages.menu.index', compact('menus'));
     }
+
+    public function create(Request $request)
+    {
+        $this->menu->create([
+            'name' => $request->name,
+            'description' => $request->description,
+        ]);
+
+        return redirect()->route('admin.menu.index');
+    }
+
+    public function update($id, Request $request)
+    {
+        $this->menu->find($id)->update([
+            'name'=> $request->name,
+            'description' => $request->description
+        ]);
+
+        return redirect()->route('admin.menu.index');
+    }
+
+    public function delete($id)
+    {
+        $this->menu->find($id)->delete();
+        return redirect()->route('admin.menu.index');
+    }
 }

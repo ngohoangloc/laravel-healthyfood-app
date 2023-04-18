@@ -27,9 +27,9 @@ Route::prefix('admin')->group(function () {
             'as' => 'admin.role.create',
             'uses' => 'App\Http\Controllers\Admin\RoleController@create'
         ]);
-        Route::post('/edit/{id}', [
-            'as' => 'admin.role.edit',
-            'uses' => 'App\Http\Controllers\Admin\RoleController@edit'
+        Route::post('/update/{id}', [
+            'as' => 'admin.role.update',
+            'uses' => 'App\Http\Controllers\Admin\RoleController@update'
         ]);
         Route::post('/delete/{id}', [
             'as' => 'admin.role.delete',
@@ -47,86 +47,32 @@ Route::prefix('admin')->group(function () {
             'as' => 'admin.menu.create',
             'uses' => 'App\Http\Controllers\Admin\MenuController@create'
         ]);
-        Route::post('/edit/{id}', [
-            'as' => 'admin.menu.edit',
-            'uses' => 'App\Http\Controllers\Admin\MenuController@edit'
+        Route::post('/update/{id}', [
+            'as' => 'admin.menu.update',
+            'uses' => 'App\Http\Controllers\Admin\MenuController@update'
         ]);
         Route::post('/delete/{id}', [
             'as' => 'admin.menu.delete',
             'uses' => 'App\Http\Controllers\Admin\MenuController@delete'
         ]);
     });
-
-    Route::prefix('jobs')->group(function () {
+    Route::prefix('item')->group(function () {
         Route::get('/', [
-            'as' => 'client.jobs.index',
-            'uses' => 'App\Http\Controllers\Client\JobController@index'
+            'as' => 'admin.item.index',
+            'uses' => 'App\Http\Controllers\Admin\ItemController@index'
         ]);
 
-        Route::get('/detail/{id}', [
-            'as' => 'job.detail',
-            'uses' => 'App\Http\Controllers\Client\JobController@detail'
+        Route::post('/create', [
+            'as' => 'admin.item.create',
+            'uses' => 'App\Http\Controllers\Admin\ItemController@create'
         ]);
-
-        Route::post('/comment', [
-            'as' => 'comments.store',
-            'uses' => 'App\Http\Controllers\Client\CommentController@store'
-        ])->middleware(\App\Http\Middleware\Auth::class);
-    });
-    Route::prefix('motels')->group(function () {
-        Route::get('/', [
-            'as' => 'client.motels.index',
-            'uses' => 'App\Http\Controllers\Client\MotelController@index'
+        Route::post('/update/{id}', [
+            'as' => 'admin.item.update',
+            'uses' => 'App\Http\Controllers\Admin\ItemController@update'
         ]);
-
-        Route::get('/detail/{id}', [
-            'as' => 'motel.detail',
-            'uses' => 'App\Http\Controllers\Client\MotelController@detail'
-        ]);
-
-        Route::post('/comment', [
-            'as' => 'comments.store',
-            'uses' => 'App\Http\Controllers\Client\CommentController@store'
-        ])->middleware(\App\Http\Middleware\Auth::class);
-    });
-
-    Route::prefix('edu-centers')->group(function () {
-        Route::get('/', [
-            'as' => 'edu_center.index',
-            'uses' => 'App\Http\Controllers\Client\EduCenterController@index'
-        ]);
-
-        Route::get('/detail/{id}', [
-            'as' => 'edu_center.detail',
-            'uses' => 'App\Http\Controllers\Client\EduCenterController@detail'
-        ]);
-
-        Route::post('/comment', [
-            'as' => 'comments.store',
-            'uses' => 'App\Http\Controllers\Client\CommentController@store'
-        ])->middleware(\App\Http\Middleware\Auth::class);
-    });
-
-    Route::prefix('dining-venues')->group(function () {
-        Route::get('/', [
-            'as' => 'client.dining_venue.index',
-            'uses' => 'App\Http\Controllers\Client\DiningVenueController@index'
-        ]);
-        Route::get('/detail/{id}', [
-            'as' => 'client.dining_venue.detail',
-            'uses' => 'App\Http\Controllers\Client\DiningVenueController@detail'
-        ]);
-    });
-
-    Route::prefix('tourist-places')->group(function () {
-        Route::get('/', [
-            'as' => 'client.tourist_place.index',
-            'uses' => 'App\Http\Controllers\Client\TouristPlaceController@index'
-        ]);
-
-        Route::get('/detail/{id}', [
-            'as' => 'client.tourist_place.detail',
-            'uses' => 'App\Http\Controllers\Client\TouristPlaceController@detail'
+        Route::post('/delete/{id}', [
+            'as' => 'admin.item.delete',
+            'uses' => 'App\Http\Controllers\Admin\ItemController@delete'
         ]);
     });
 });

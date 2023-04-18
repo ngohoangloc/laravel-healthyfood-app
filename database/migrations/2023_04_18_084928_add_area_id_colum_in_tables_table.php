@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMenusTable extends Migration
+class AddAreaIdColumInTablesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,9 @@ class CreateMenusTable extends Migration
      */
     public function up()
     {
-        Schema::create('menus', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->text('description')->nullable(true);
-            $table->timestamps();
-            $table->softDeletes();
+        Schema::table('tables', function (Blueprint $table) {
+            $table->unsignedBigInteger('area_id');
+            $table->foreign('area_id')->references('id')->on('areas');
         });
     }
 
@@ -29,6 +26,8 @@ class CreateMenusTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('menus');
+        Schema::table('tables', function (Blueprint $table) {
+            //
+        });
     }
 }

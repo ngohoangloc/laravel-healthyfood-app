@@ -14,10 +14,9 @@
                 </nav>
             </div>
             <div class=" d-flex justify-content-end text-white">
-                <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#createModal">Thêm mới</button>
+                <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#createMenuModal">Thêm mới</button>
             </div>
         </div>
-
         <div class="card">
             <div class="card-body">
                 <h4>THỰC ĐƠN</h4>
@@ -75,16 +74,20 @@
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
                                             </div>
-                                            <div class="modal-body">
-                                                Bạn muốn xoá ?
-                                            </div>
-                                            <div class="modal-footer">
-                                                <a class="btn btn-danger"
-                                                    href="{{ route('admin.menu.delete', ['id' => $menu->id]) }}"
-                                                    role="button">Xoá</a>
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Huỷ
-                                                </button>
-                                            </div>
+                                            <form action="{{ route('admin.menu.delete', ['id' => $menu->id]) }}"
+                                                method="post">
+                                                @csrf
+                                                <div class="modal-body">
+                                                    <div class="modal-body">
+                                                        Bạn muốn xoá ?
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default m-r-10"
+                                                        data-dismiss="modal">Huỷ</button>
+                                                    <button type="submit" class="btn btn-danger">Xoá</button>
+                                                </div>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
@@ -101,17 +104,20 @@
                                                     <i class="anticon anticon-close"></i>
                                                 </button>
                                             </div>
-                                            <form action="{{ route('admin.menu.edit', ['id' => $menu->id]) }}"
+                                            <form action="{{ route('admin.menu.update', ['id' => $menu->id]) }}"
                                                 method="post" enctype="multipart/form-data">
                                                 @csrf
                                                 <div class="modal-body">
 
                                                     <div class="form-group">
-                                                        <label for="name">Tên vai trò</label>
+                                                        <label for="name">Tên thực đơn</label>
                                                         <input type="text" class="form-control" id="menu-name"
-                                                            name="name" value="{{ $menu->name }}">
+                                                            name="name" value="{{ $menu->name }}" required>
                                                     </div>
-
+                                                    <div class="form-group">
+                                                        <label for="description">Mô tả</label>
+                                                        <textarea class="form-control" id="menu-description" name="description">{{ $menu->description }}</textarea>
+                                                    </div>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-default m-r-10"
@@ -130,9 +136,9 @@
             </div>
         </div>
     </div>
-
     <!-- Create Modal -->
-    <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="delete" aria-hidden="true">
+    <div class="modal fade" id="createMenuModal" tabindex="-1" role="dialog" aria-labelledby="create"
+        aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -144,22 +150,21 @@
                 <form action="{{ route('admin.menu.create') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
-
                         <div class="form-group">
                             <label for="menu-name">Tên thực đơn</label>
                             <input type="text" class="form-control" id="menu-name" name="name"
-                                placeholder="Nhập tên thực đơn">
+                                placeholder="Nhập tên thực đơn" required>
                         </div>
                         <div class="form-group">
                             <label for="menu-description">Mô tả</label>
-                            <textarea class="form-control" id="menu-description" name="description" >
+                            <textarea class="form-control" id="menu-description" name="description"></textarea>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default m-r-10" data-dismiss="modal">Đóng</button>
                             <button type="submit" class="btn btn-primary">Lưu</button>
                         </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

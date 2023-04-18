@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Menu extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $table = 'menus';
 
@@ -18,4 +19,9 @@ class Menu extends Model
         'name',
         'description'
     ];
+
+    public function items()
+    {
+        return $this->hasMany(Item::class);
+    }
 }

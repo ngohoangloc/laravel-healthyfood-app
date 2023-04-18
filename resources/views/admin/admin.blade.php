@@ -48,8 +48,6 @@
             <!-- Search End-->
         </div>
     </div>
-
-
     <!-- Core Vendors JS -->
     <script src={{ asset('js/vendors.min.js') }}></script>
 
@@ -61,7 +59,5 @@
     <script src={{ asset('js/app.min.js') }}></script>
 
     @yield('js')
-
 </body>
-
 </html>
