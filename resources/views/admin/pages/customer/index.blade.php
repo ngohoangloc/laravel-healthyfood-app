@@ -1,7 +1,7 @@
 @extends('admin.admin')
 
 @section('title')
-    <title>Đồ ăn - Thức uống | Healthy Food</title>
+    <title>Khách hàng | Healthy Food</title>
 @endsection
 
 @section('content')
@@ -10,7 +10,7 @@
             <div class="header-sub-title">
                 <nav class="breadcrumb breadcrumb-dash">
                     <a href="/admin" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Dashboard</a>
-                    <span class="breadcrumb-item active">Đồ ăn - Thức uống</span>
+                    <span class="breadcrumb-item active">Khách hàng</span>
                 </nav>
             </div>
             <div class=" d-flex justify-content-end text-white">
@@ -19,7 +19,7 @@
         </div>
         <div class="card">
             <div class="card-body">
-                <h4>ĐỒ ĂN - THỨC UỐNG</h4>
+                <h4>KHÁCH HÀNG</h4>
                 </h4>
                 <?php $i = 1; ?>
                 <div class="table-responsive">
@@ -30,16 +30,10 @@
                                     #
                                 </th>
                                 <th scope="col">
-                                    Tên món
+                                    Họ tên
                                 </th>
                                 <th scope="col">
-                                    Giá
-                                </th>
-                                <th scope="col">
-                                    Hình ảnh
-                                </th>
-                                <th scope="col">
-                                    Thực đơn
+                                    Số điện thoại
                                 </th>
                                 <th scope="col">
                                     Tác vụ
@@ -47,7 +41,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($items as $item)
+                            @foreach ($customers as $item)
                                 <tr>
                                     <td>
                                         <?php
@@ -56,9 +50,7 @@
                                         ?>
                                     </td>
                                     <td>{{ $item->name }}</td>
-                                    <td><?= number_format($item->price, 0, '', ',') ?> đ</td>
-                                    <td><img src="{{ $item->img_path }}" alt="" style="width: 50px"></td>
-                                    <td>{{ $item->menu->name }}</td>
+                                    <td>{{ $item->phone }}</td>
                                     <td>
                                         <a href="#" class="btn btn-sm btn-success" data-toggle="modal"
                                             data-target="#detailModal{{ $item->id }}"><i
@@ -83,7 +75,7 @@
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
                                             </div>
-                                            <form action="{{ route('admin.item.delete', ['id' => $item->id]) }}"
+                                            <form action="{{ route('admin.customer.delete', ['id' => $item->id]) }}"
                                                 method="post">
                                                 @csrf
                                                 <div class="modal-body">
@@ -113,19 +105,20 @@
                                                     <i class="anticon anticon-close"></i>
                                                 </button>
                                             </div>
-                                            <form action="{{ route('admin.item.update', ['id' => $item->id]) }}"
+                                            <form action="{{ route('admin.customer.update', ['id' => $item->id]) }}"
                                                 method="post" enctype="multipart/form-data">
                                                 @csrf
                                                 <div class="modal-body">
 
                                                     <div class="form-group">
-                                                        <label for="name">Tên thực đơn</label>
-                                                        <input type="text" class="form-control" id="item-name"
+                                                        <label for="name">Họ tên</label>
+                                                        <input type="text" class="form-control" id="customer-name"
                                                             name="name" value="{{ $item->name }}" required>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="description">Mô tả</label>
-                                                        <textarea class="form-control" id="item-description" name="description">{{ $item->description }}</textarea>
+                                                        <label for="phone">Số điện thoại</label>
+                                                        <input type="text" class="form-control" id="customer-phone"
+                                                            name="phone" value="{{ $item->phone }}" required>
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
@@ -156,35 +149,18 @@
                         <i class="anticon anticon-close"></i>
                     </button>
                 </div>
-                <form action="{{ route('admin.item.create') }}" method="post" enctype="multipart/form-data">
+                <form action="{{ route('admin.customer.create') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="item-name">Tên thực đơn</label>
-                            <input type="text" class="form-control" id="item-name" name="name"
-                                placeholder="Nhập tên thực đơn..." required>
+                            <label for="customer-name">Họ tên</label>
+                            <input type="text" class="form-control" id="customer-name" name="name"
+                                placeholder="Nhập tên khách hàng..." required>
                         </div>
                         <div class="form-group">
-                            <label for="item-description">Mô tả</label>
-                            <textarea class="form-control" id="item-description" name="description"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="item-name">Giá</label>
-                            <input type="number" class="form-control" id="item-price" name="price"
-                                placeholder="Nhập vào giá bán..." required>
-                        </div>
-                        <div class="form-group">
-                            <label for="item-name">Hình ảnh</label>
-                            <input type="file" class="form-control" id="item-img_path" name="img_path" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="item-name">Thực đơn</label>
-                            <select class="select" name="menu_id">
-                                <option value="0">Lựa chọn...</option>
-                                @foreach ($menus as $menu)
-                                    <option value="{{ $menu->id }}">{{ $menu->name }}</option>
-                                @endforeach
-                            </select>
+                            <label for="customer-phone">Số điện thoại</label>
+                            <input type="text" class="form-control" id="customer-phone" name="phone"
+                                placeholder="Nhập số điện thoại..." required>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default m-r-10" data-dismiss="modal">Đóng</button>
