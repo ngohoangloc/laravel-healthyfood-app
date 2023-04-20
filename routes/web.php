@@ -94,6 +94,25 @@ Route::prefix('admin')->group(function () {
             'uses' => 'App\Http\Controllers\Admin\CustomerController@delete'
         ]);
     });
+    Route::prefix('employee')->group(function () {
+        Route::get('/', [
+            'as' => 'admin.employee.index',
+            'uses' => 'App\Http\Controllers\Admin\EmployeeController@index'
+        ]);
+
+        Route::post('/create', [
+            'as' => 'admin.employee.create',
+            'uses' => 'App\Http\Controllers\Admin\EmployeeController@create'
+        ]);
+        Route::post('/update/{id}', [
+            'as' => 'admin.employee.update',
+            'uses' => 'App\Http\Controllers\Admin\EmployeeController@update'
+        ]);
+        Route::post('/delete/{id}', [
+            'as' => 'admin.employee.delete',
+            'uses' => 'App\Http\Controllers\Admin\EmployeeController@delete'
+        ]);
+    });
 });
 
 Route::get('/login', 'App\Http\Controllers\AuthController@login');
