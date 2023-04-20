@@ -26,7 +26,7 @@ class EmployeeController extends Controller
     {
         $employees = $this->employee->all();
         $roles = $this->role->all();
-        return view('admin.pages.employee.index', compact('employees'));
+        return view('admin.pages.employee.index', compact('employees', 'roles'));
     }
 
     public function create(Request $request)

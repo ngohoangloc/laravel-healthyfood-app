@@ -177,6 +177,15 @@
                                 placeholder="Nhập số điện thoại..." required>
                         </div>
                         <div class="form-group">
+                            <label for="item-name">Vị trí làm việc</label>
+                            <select class="select form-control" name="role_id">
+                                <option value="0">Lựa chọn...</option>
+                                @foreach ($roles as $role)
+                                    <option value="{{ $role->id }}">{{ $role->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label for="employee-name">Tên đăng nhập</label>
                             <input type="text" class="form-control" id="employee-username" name="username"
                                 placeholder="Nhập tên đăng nhập..." required>
