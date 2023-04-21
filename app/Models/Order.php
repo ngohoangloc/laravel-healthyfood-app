@@ -4,8 +4,26 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Order extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
+
+    protected $table = 'orders';
+
+    protected $primaryKey = 'id';
+
+    protected $fillable = [
+        'id',
+        'order_date',
+        'status',
+        'customer_id',
+        'table_id'
+    ];
+
+    public function customer()
+    {
+        return $this->hasOne(Customer::class);
+    }
 }

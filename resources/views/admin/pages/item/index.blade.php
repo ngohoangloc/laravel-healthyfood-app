@@ -179,7 +179,7 @@
                         </div>
                         <div class="form-group">
                             <label for="item-name">Thực đơn</label>
-                            <select class="select" name="menu_id">
+                            <select class="select form-control" name="menu_id">
                                 <option value="0">Lựa chọn...</option>
                                 @foreach ($menus as $menu)
                                     <option value="{{ $menu->id }}">{{ $menu->name }}</option>

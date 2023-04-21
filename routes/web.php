@@ -113,6 +113,21 @@ Route::prefix('admin')->group(function () {
             'uses' => 'App\Http\Controllers\Admin\EmployeeController@delete'
         ]);
     });
+
+    Route::prefix('table')->group(function () {
+        Route::get('/', [
+            'as' => 'admin.table.index',
+            'uses' => 'App\Http\Controllers\Admin\OrderController@index'
+        ]);
+        Route::get('/order/{table}', [
+            'as' => 'admin.table.order',
+            'uses' => 'App\Http\Controllers\Admin\OrderController@order'
+        ]);
+        Route::get('/payment/{table}', [
+            'as' => 'admin.table.payment',
+            'uses' => 'App\Http\Controllers\Admin\OrderController@payment'
+        ]);
+    });
 });
 
 Route::get('/login', 'App\Http\Controllers\AuthController@login');
