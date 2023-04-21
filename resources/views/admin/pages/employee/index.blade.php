@@ -39,12 +39,15 @@
                                     Số điện thoại
                                 </th>
                                 <th scope="col">
+                                    Vị trí làm việc
+                                </th>
+                                <th scope="col">
                                     Tác vụ
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($employees as $item)
+                            @foreach ($employees as $employee)
                                 <tr>
                                     <td>
                                         <?php
@@ -52,34 +55,35 @@
                                         $i += 1;
                                         ?>
                                     </td>
-                                    <td>{{ $item->name }}</td>
-                                    <td>{{ $item->address }}</td>
-                                    <td>{{ $item->phone }}</td>
+                                    <td>{{ $employee->name }}</td>
+                                    <td>{{ $employee->address }}</td>
+                                    <td>{{ $employee->phone }}</td>
+                                    <td>{{ $employee->role->name }}</td>
                                     <td>
                                         <a href="#" class="btn btn-sm btn-success" data-toggle="modal"
-                                            data-target="#detailModal{{ $item->id }}"><i
+                                            data-target="#detailModal{{ $employee->id }}"><i
                                                 class="anticon anticon-info-circle"></i></a>
                                         <a href="#"class="btn btn-sm btn-primary" data-toggle="modal"
-                                            data-target="#editModal{{ $item->id }}"><i
+                                            data-target="#editModal{{ $employee->id }}"><i
                                                 class="anticon anticon-edit"></i></a>
                                         <a href="#" class="btn btn-sm btn-danger" data-toggle="modal"
-                                            data-target="#deleteModal{{ $item->id }}"><i
+                                            data-target="#deleteModal{{ $employee->id }}"><i
                                                 class="anticon anticon-delete"></i></a>
                                     </td>
                                 </tr>
                                 <!-- Delete Modal -->
-                                <div class="modal fade" id="deleteModal{{ $item->id }}" tabindex="-1" role="dialog"
+                                <div class="modal fade" id="deleteModal{{ $employee->id }}" tabindex="-1" role="dialog"
                                     aria-labelledby="delete" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="delete">{{ $item->name }}</h5>
+                                                <h5 class="modal-title" id="delete">{{ $employee->name }}</h5>
                                                 <button type="button" class="close" data-dismiss="modal"
                                                     aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
                                             </div>
-                                            <form action="{{ route('admin.employee.delete', ['id' => $item->id]) }}"
+                                            <form action="{{ route('admin.employee.delete', ['id' => $employee->id]) }}"
                                                 method="post">
                                                 @csrf
                                                 <div class="modal-body">
@@ -99,8 +103,8 @@
                                 <!-- End delete modal -->
 
                                 <!-- Edit Modal -->
-                                <div class="modal fade" id="editModal{{ $item->id }}" tabindex="-1" role="dialog"
-                                    aria-labelledby="delete" aria-hidden="true">
+                                <div class="modal fade" id="editModal{{ $employee->id }}" tabindex="-1" role="dialog"
+                                    aria-labelledby="edit" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -109,7 +113,7 @@
                                                     <i class="anticon anticon-close"></i>
                                                 </button>
                                             </div>
-                                            <form action="{{ route('admin.employee.update', ['id' => $item->id]) }}"
+                                            <form action="{{ route('admin.employee.update', ['id' => $employee->id]) }}"
                                                 method="post" enctype="multipart/form-data">
                                                 @csrf
                                                 <div class="modal-body">
@@ -117,17 +121,17 @@
                                                     <div class="form-group">
                                                         <label for="name">Họ tên</label>
                                                         <input type="text" class="form-control" id="employee-name"
-                                                            name="name" value="{{ $item->name }}" required>
+                                                            name="name" value="{{ $employee->name }}" required>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="name">Địa chỉ</label>
                                                         <input type="text" class="form-control" id="employee-address"
-                                                            name="address" value="{{ $item->address }}" required>
+                                                            name="address" value="{{ $employee->address }}" required>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="phone">Số điện thoại</label>
                                                         <input type="text" class="form-control" id="employee-phone"
-                                                            name="phone" value="{{ $item->phone }}" required>
+                                                            name="phone" value="{{ $employee->phone }}" required>
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">

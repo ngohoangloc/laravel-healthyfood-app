@@ -11,6 +11,7 @@ class User extends Model
     use HasFactory, SoftDeletes;
 
     protected $table = 'users';
+
     protected $primaryKey = 'id';
 
     protected $fillable = [
@@ -25,5 +26,9 @@ class User extends Model
     public function account()
     {
         return $this->hasOne(Account::class);
+    }
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
     }
 }
