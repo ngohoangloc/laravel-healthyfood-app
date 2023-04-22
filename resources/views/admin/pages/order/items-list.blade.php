@@ -31,42 +31,43 @@
                                 <div class="tab-pane fade" id="menu-{{ $menu->id }}-tab">
                                     <div class="row">
                                         @foreach ($menu->items as $item)
-                                            <a href="#" class="" data-toggle="modal"
-                                                data-target="#addToCartModal-{{ $item->id }}">
-                                                <div class="col-lg-4 mb-4 mb-lg-0">
-                                                    <div class="bg-image rounded-6" style="height: 150px;">
-                                                        <img src="{{ $item->img_path }}" class="w-100"
-                                                            alt="{{ $item->name }}" />
-                                                        <!-- Mask -->
-                                                        <div class="mask"
-                                                            style="
-                                                            background: linear-gradient(
-                                                                to bottom,
-                                                                hsla(0, 0%, 0%, 0),
-                                                                hsla(263, 80%, 20%, 0.5)
-                                                            );">
-                                                            <div
-                                                                class="
+                                            <div class="col-lg-4 mb-4 mb-lg-0">
+                                                <a href="#" class="" data-toggle="modal"
+                                                    data-target="#addToCartModal-{{ $item->id }}">
+                                                    <div class="bg-image rounded-6"
+                                                        style="
+                                                        height: 200px;
+                                                        background-size: cover;
+                                                        background-position: center center;
+                                                        background-image: url('{{ $item->img_path }}');
+                                                        ">
+                                                        <div class="
                                                             bottom-0
                                                             d-flex
                                                             align-items-end
                                                             h-100
                                                             text-center
                                                             justify-content-center
-                                                        ">
-                                                                <div>
-                                                                    <h6 class="fw-bold text-white mb-4">{{ $item->name }}
-                                                                    </h6>
-                                                                </div>
+                                                        "
+                                                            style="background: linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(255, 255, 255, 0));">
+                                                            <div>
+                                                                <span
+                                                                    class="fw-bold text-white"><?= number_format($item->price, 0, '', ',') ?>
+                                                                    VND</span>
+                                                                <h5 class="fw-bold text-white mb-4 pr-1 pl-1">
+                                                                    {{ $item->name }}
+                                                                </h5>
+
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </a>
+                                                </a>
+                                            </div>
+
 
                                             {{-- Add To Cart Modal --}}
                                             <div class="modal fade" id="addToCartModal-{{ $item->id }}" tabindex="-1"
-                                                role="dialog" aria-labelledby="delete" aria-hidden="true">
+                                                role="dialog" aria-hidden="true">
                                                 <div class="modal-dialog" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
@@ -76,14 +77,28 @@
                                                                 <span aria-hidden="true">&times;</span>
                                                             </button>
                                                         </div>
-                                                        <div class="modal-body">
+                                                        <form method="post"
+                                                            action="{{ route('admin.table.order', ['table' => $table]) }}">
+                                                            @csrf
+                                                            <div class="modal-body">
+                                                                <div class="form-group">
+                                                                    <input type="hidden" name="item_id"
+                                                                        value="{{ $item->id }}">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="quantity">Số lượng</label>
+                                                                    <input type="number" class="form-control"
+                                                                        id="quantity" name="quantity"
+                                                                        placeholder="Nhập số lượng">
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-default m-r-10"
+                                                                    data-dismiss="modal">Huỷ</button>
+                                                                <button type="submit" class="btn btn-primary">Thêm</button>
+                                                            </div>
+                                                        </form>
 
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-default m-r-10"
-                                                                data-dismiss="modal">Huỷ</button>
-                                                            <button type="button" class="btn btn-primary" onclick="addToCart()">Thêm</button>
-                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>

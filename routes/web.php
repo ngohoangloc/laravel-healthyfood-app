@@ -117,11 +117,15 @@ Route::prefix('admin')->group(function () {
     Route::prefix('table')->group(function () {
         Route::get('/', [
             'as' => 'admin.table.index',
-            'uses' => 'App\Http\Controllers\Admin\OrderController@index'
+            'uses' => 'App\Http\Controllers\Admin\OrderController@showTableList'
         ]);
         Route::get('/order/{table}', [
+            'as' => 'admin.table.item',
+            'uses' => 'App\Http\Controllers\Admin\OrderController@selectItems'
+        ]);
+        Route::post('/order/{table}', [
             'as' => 'admin.table.order',
-            'uses' => 'App\Http\Controllers\Admin\OrderController@order'
+            'uses' => 'App\Http\Controllers\Admin\OrderController@addToCart'
         ]);
         Route::get('/payment/{table}', [
             'as' => 'admin.table.payment',
