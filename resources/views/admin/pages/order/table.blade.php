@@ -26,7 +26,7 @@
                                         {{ $table->name }} </span>
                                 </a>
                             @else
-                                <a href="{{ route('admin.table.payment', ['table' => $table->id]) }}">
+                                <a href="{{ route('admin.table.order', ['table' => $table->id]) }}">
                                     <div class="icon-wrap"><i class="fa-solid fa-couch"></i></div><span class="icon-text">
                                         {{ $table->name }} </span>
                                 </a>

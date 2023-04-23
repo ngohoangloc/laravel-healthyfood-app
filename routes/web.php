@@ -127,6 +127,10 @@ Route::prefix('admin')->group(function () {
             'as' => 'admin.table.order',
             'uses' => 'App\Http\Controllers\Admin\OrderController@addToCart'
         ]);
+        Route::post('/order/confirm/{table}', [
+            'as' => 'admin.table.order.confirm',
+            'uses' => 'App\Http\Controllers\Admin\OrderController@confirmOrder'
+        ]);
         Route::get('/payment/{table}', [
             'as' => 'admin.table.payment',
             'uses' => 'App\Http\Controllers\Admin\OrderController@payment'

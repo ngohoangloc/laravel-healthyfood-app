@@ -15,6 +15,8 @@
 
     <link href={{ asset('vendors/bootstrap-datepicker/bootstrap-datepicker.min.css') }} rel="stylesheet">
 
+    <link href={{ asset('vendors/bootstrap/dist/css/bootstrap.min.css') }} rel="stylesheet">
+
     <link href={{ asset('vendors/fontawesome/css/all.css') }} rel="stylesheet">
 
     {{-- <link rel="stylesheet" href={{ asset('vendors/mdb-ui/css/mdb.min.css') }}> --}}
@@ -59,8 +61,13 @@
 
     <!-- page js -->
     <script src={{ asset('vendors/chartjs/Chart.min.js') }}></script>
-    <script src={{ asset('vendors/mdb-ui/js/mdb.min.js') }}></script>
+
+    <script src={{ asset('vendors/bootstrap/dist/js/bootstrap.min.js') }}></script>
+
+    {{-- <script src={{ asset('vendors/mdb-ui/js/mdb.min.js') }}></script> --}}
+
     <script src={{ asset('js/pages/dashboard-e-commerce.js') }}></script>
+
 
     <!-- Core JS -->
     <script src={{ asset('js/app.min.js') }}></script>

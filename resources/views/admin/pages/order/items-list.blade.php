@@ -20,7 +20,7 @@
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                         @foreach ($menus as $menu)
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab"
+                                <a class="nav-link <?= $menu->id == $menus[0]->id ? 'active' : '' ?>" data-toggle="tab"
                                     href="#menu-{{ $menu->id }}-tab">{{ $menu->name }}</a>
                             </li>
                         @endforeach
@@ -28,7 +28,8 @@
                     <div class="card-body">
                         <div class="tab-content m-t-15">
                             @foreach ($menus as $menu)
-                                <div class="tab-pane fade" id="menu-{{ $menu->id }}-tab">
+                                <div class="tab-pane fade  <?= $menu->id == $menus[0]->id ? 'show active' : '' ?>"
+                                    id="menu-{{ $menu->id }}-tab">
                                     <div class="row">
                                         @foreach ($menu->items as $item)
                                             <div class="col-lg-4 mb-4 mb-lg-0">
@@ -115,7 +116,49 @@
                 <div class="card">
                     <div class="card-body">
                         <h4>ĐƠN HÀNG</h4>
+                        @if ($orderDetails)
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Món</th>
+                                        <th scope="col">Số lượng</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php $i = 1; ?>
+                                    @foreach ($orderDetails as $order_detail)
+                                        <tr>
+                                            <td scope='row'>
+                                                <?php
+                                                echo $i;
+                                                $i += 1;
+                                                ?>
+                                            </td>
+                                            <td>{{ $order_detail->item->name }}</td>
+                                            <td>x {{ $order_detail->total_quantity }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
 
+                            <form action="{{ route('admin.table.order.confirm', ['table' => $table]) }}" method="post">
+                                @csrf
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label for="order-note">Ghi chú</label>
+                                        <textarea class="form-control" id="order-note" name="note">
+                                            <?= $order_detail->order->note ?>
+                                        </textarea>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default m-r-10"
+                                            data-dismiss="modal">HUỶ</button>
+                                        <button type="submit" class="btn btn-primary">XÁC NHẬN</button>
+                                    </div>
+                                </div>
+                            </form>
+                        @endif
                     </div>
                 </div>
             </div>

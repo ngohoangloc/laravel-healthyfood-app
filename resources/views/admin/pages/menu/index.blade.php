@@ -25,16 +25,16 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th scope="col">
+                                <th scope="col" class="col-md-1">
                                     #
                                 </th>
-                                <th scope="col">
+                                <th scope="col" class="col-md-2">
                                     Tên thực đơn
                                 </th>
-                                <th scope="col">
+                                <th scope="col" class="col-md-7">
                                     Mô tả
                                 </th>
-                                <th scope="col">
+                                <th scope="col" class="col-md-2">
                                     Tác vụ
                                 </th>
                             </tr>
@@ -51,9 +51,6 @@
                                     <td>{{ $menu->name }}</td>
                                     <td>{{ $menu->description }}</td>
                                     <td>
-                                        <a href="#" class="btn btn-sm btn-success" data-toggle="modal"
-                                            data-target="#detailModal{{ $menu->id }}"><i
-                                                class="anticon anticon-info-circle"></i></a>
                                         <a href="#"class="btn btn-sm btn-primary" data-toggle="modal"
                                             data-target="#editModal{{ $menu->id }}"><i
                                                 class="anticon anticon-edit"></i></a>
