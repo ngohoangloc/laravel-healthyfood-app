@@ -17,6 +17,7 @@ class OrderDetail extends Model
     protected $fillable = [
         'id',
         'quantity',
+        'status', //1 = đã gọi món, món chưa được chế biến; 2 = món đang được chế biến; 3 = món đã được chế biến
         'order_id',
         'item_id'
     ];

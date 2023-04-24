@@ -57,27 +57,39 @@ class OrderController extends Controller
         if (!$currentOrder) {
             $newOrder = $this->order->create([
                 'order_date' => date('Y-m-d H:i:s'),
-                'status' => false,
+                'status' => false, //false: Đơn hàng chưa được thanh toán, true: Đơn hàng đã được thanh toán
                 'table_id' => $table,
             ]);
 
             $this->orderDetail->create([
                 'quantity' => $request->quantity,
+                'status' => 1,
                 'order_id' => $newOrder->id,
                 'item_id' => $request->item_id
             ]);
 
-            $this->table->find('table')->update([
+            $this->table->find($table)->update([
                 'status' => false
             ]);
         } else {
             $this->orderDetail->create([
                 'quantity' => $request->quantity,
+                'status' => 1,
                 'order_id' => $currentOrder->id,
                 'item_id' => $request->item_id
             ]);
         }
         return redirect()->back();
+    }
+
+    public function removeFromCart(Request $request)
+    {
+        $orderDetail = $this->orderDetail->find($request->item_id);
+
+        if ($orderDetail->status == 1)
+        {
+            $orderDetail->delete();
+        }
     }
 
     public function confirmOrder($table, Request $request)
