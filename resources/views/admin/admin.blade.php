@@ -24,6 +24,8 @@
     <!-- Core css -->
     <link href={{ asset('css/app.min.css') }} rel="stylesheet">
 
+    <script src="{{ asset('vendors/jquery/dist/jquery.min.js') }}"></script>
+
 </head>
 
 <body>
@@ -63,8 +65,6 @@
     <script src={{ asset('vendors/chartjs/Chart.min.js') }}></script>
 
     <script src={{ asset('vendors/bootstrap/dist/js/bootstrap.min.js') }}></script>
-
-    {{-- <script src={{ asset('vendors/mdb-ui/js/mdb.min.js') }}></script> --}}
 
     <script src={{ asset('js/pages/dashboard-e-commerce.js') }}></script>
 

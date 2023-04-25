@@ -13,7 +13,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::prefix('admin')->group(function () {
+Route::get('/', 'App\Http\Controllers\AuthController@showLogin');
+Route::post('/', 'App\Http\Controllers\AuthController@login')->name('auth.login');
+Route::get('/logout', 'App\Http\Controllers\AuthController@logout')->name('auth.logout');
+
+Route::prefix('admin')->middleware(\App\Http\Middleware\CheckAdmin::class)->group(function () {
 
     Route::get('/', 'App\Http\Controllers\Admin\DashboardController@index');
 
@@ -137,15 +141,3 @@ Route::prefix('admin')->group(function () {
         ]);
     });
 });
-
-Route::get('/login', 'App\Http\Controllers\AuthController@login');
-Route::post('/login', 'App\Http\Controllers\AuthController@checkLogin')->name('auth.login');
-Route::get('/logout', 'App\Http\Controllers\AuthController@logout')->name('auth.logout');
-Route::get('/register', 'App\Http\Controllers\AuthController@showRegister');
-Route::post('/register', 'App\Http\Controllers\AuthController@register')->name('auth.register');
-Route::post('/showMajorsInCollege', 'App\Http\Controllers\AuthController@showMajorsInCollege');
-
-Route::get('search-scholarship', 'App\Http\Controllers\SearchController@searchScholarship')->name('search.scholarship');
-Route::get('search-edu-center', 'App\Http\Controllers\SearchController@searchEduCenter')->name('search.edu_center');
-Route::get('search-motel', 'App\Http\Controllers\SearchController@searchMotel')->name('search.motel');
-Route::get('search-job', 'App\Http\Controllers\SearchController@searchJob')->name('search.job');

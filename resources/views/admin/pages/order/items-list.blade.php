@@ -33,8 +33,8 @@
                                     <div class="row">
                                         @foreach ($menu->items as $item)
                                             <div class="col-lg-4 mb-4 mb-lg-0">
-                                                <div class="menu_item" item-id="{{ $item->id }}"
-                                                    item-name="{{ $item->name }}">
+                                                <a href="#" class="" data-toggle="modal"
+                                                    data-target="#addToCartModal-{{ $item->id }}">
                                                     <div class="bg-image rounded-6"
                                                         style="
                                                         height: 200px;
@@ -62,8 +62,48 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    </a>
+                                                </a>
+                                            </div>
+
+
+                                            {{-- Add To Cart Modal --}}
+                                            <div class="modal fade" id="addToCartModal-{{ $item->id }}" tabindex="-1"
+                                                role="dialog" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="delete">{{ $item->name }}</h5>
+                                                            <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <form method="post"
+                                                            action="{{ route('admin.table.order', ['table' => $table]) }}">
+                                                            @csrf
+                                                            <div class="modal-body">
+                                                                <div class="form-group">
+                                                                    <input type="hidden" name="item_id"
+                                                                        value="{{ $item->id }}">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="quantity">Số lượng</label>
+                                                                    <input type="number" class="form-control"
+                                                                        id="quantity" name="quantity"
+                                                                        placeholder="Nhập số lượng">
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-default m-r-10"
+                                                                    data-dismiss="modal">Huỷ</button>
+                                                                <button type="submit" class="btn btn-primary"
+                                                                    onclick="addToCart()">Thêm</button>
+                                                            </div>
+                                                        </form>
+
+                                                    </div>
                                                 </div>
+                                            </div>
                                         @endforeach
                                     </div>
                                 </div>
@@ -109,7 +149,7 @@
                                     <div class="form-group">
                                         <label for="order-note">Ghi chú</label>
                                         <textarea class="form-control" id="order-note" name="note">
-                                            <?= trim($order_detail->order->note) ?>
+                                            <?= $order_detail->order->note ?>
                                         </textarea>
                                     </div>
                                     <div class="modal-footer">
@@ -126,88 +166,5 @@
         </div>
     </div>
 
-    {{-- Add To Cart Modal --}}
-    <div class="modal fade" id="add-to-cart-modal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title"></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form method="post" action="{{ route('admin.table.order', ['table' => $table]) }}">
-                    @csrf
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <input type="hidden" name="item_id">
-                        </div>
-                        <div class="form-group">
-                            <label for="quantity">Số lượng</label>
-                            <input type="number" class="form-control" id="quantity" name="quantity"
-                                placeholder="Nhập số lượng">
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default m-r-10" data-dismiss="modal">Huỷ</button>
-                        <button type="submit" class="btn btn-primary" id="add-to-cart-button">Thêm</button>
-                    </div>
-                </form>
 
-            </div>
-        </div>
-    </div>
-
-    <script>
-        $('.menu-item').on('click', function() {
-            // Lấy thông tin sản phẩm (ID, tên, giá) từ data attribute của sản phẩm
-            var item_id = $(this).data('item-id');
-            var item_name = $(this).data('item-name');
-
-            // Hiển thị modal và đưa thông tin sản phẩm vào modal
-            $('#add-to-cart-modal').modal('show');
-            $('#add-to-cart-modal').find('.modal-title').text('Thêm sản phẩm "' + item_name + '" vào giỏ hàng');
-            $('#add-to-cart-modal').find('#add-to-cart-button').data('item-id', item_id);
-        });
-
-        // Bắt sự kiện click vào nút "Thêm vào giỏ hàng" trong modal
-        $('#add-to-cart-button').on('click', function() {
-                    // Lấy thông tin số lượng sản phẩm từ ô input trong modal
-                    var quantity = $('#quantity').val();
-
-                    // Kiểm tra số lượng hợp lệ (lớn hơn 0 và nhỏ hơn hoặc bằng 9999)
-                    if (quantity > 0 && quantity <= 9999) {
-                        // Lấy thông tin sản phẩm từ data attribute của nút "Thêm vào giỏ hàng"
-                        var productId = $(this).data('product-id');
-                        var productPrice = $(this).data('product-price');
-
-                        // Thêm sản phẩm vào giỏ hàng (lưu vào cookie hoặc session)
-                        addToCart(productId, productPrice, quantity);
-
-                        // Cập nhật danh sách sản phẩm trong giỏ hàng
-                        updateCartItemList();
-
-                        $(document).ready(function() {
-                            $('#add-to-cart-button').click(function(event) {
-                                event.preventDefault(); // ngăn chặn hành động mặc định của nút submit
-                                var form = $('#add-to-cart-form');
-                                var url = form.attr('action');
-                                var data = form
-                            .serialize(); // chuyển các trường input thành chuỗi query string
-
-                                $.ajax({
-                                    url: url,
-                                    method: 'POST',
-                                    data: data,
-                                    success: function(response) {
-                                        alert('Sản phẩm đã được thêm vào giỏ hàng thành công!');
-                                    },
-                                    error: function(xhr) {
-                                        alert(
-                                            'Đã có lỗi xảy ra khi thêm sản phẩm vào giỏ hàng!');
-                                    }
-                                });
-                            });
-                        });
-    </script>
 @endsection
