@@ -1,4 +1,4 @@
-@extends('admin.admin')
+@extends('employee.employee')
 
 @section('title')
     <title>Gọi món | Healthy Food</title>
@@ -9,13 +9,13 @@
         <div class="page-header">
             <div class="header-sub-title">
                 <nav class="breadcrumb breadcrumb-dash">
-                    <a href="/admin/dashboard" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Dashboard</a>
+                    <a href="/employee" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Dashboard</a>
                     <span class="breadcrumb-item active">Gọi món</span>
                 </nav>
             </div>
         </div>
         <div class="row">
-            <div class="col-8">
+            <div class="col-md-8 col-sm-12">
                 <div class="card">
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                         @foreach ($menus as $menu)
@@ -79,7 +79,7 @@
                                                             </button>
                                                         </div>
                                                         <form method="post"
-                                                            action="{{ route('admin.table.order', ['table' => $table]) }}">
+                                                            action="{{ route('employee.table.order', ['table' => $table]) }}">
                                                             @csrf
                                                             <div class="modal-body">
                                                                 <div class="form-group">
@@ -91,6 +91,10 @@
                                                                     <input type="number" class="form-control"
                                                                         id="quantity" name="quantity"
                                                                         placeholder="Nhập số lượng">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="quantity">Số lượng</label>
+                                                                    <textarea class="form-control" id="note" name="note"></textarea>
                                                                 </div>
                                                             </div>
                                                             <div class="modal-footer">
@@ -109,11 +113,12 @@
                                 </div>
                             @endforeach
                         </div>
+
                     </div>
                     <div class="notification-toast top-middle" id="notification-toast"></div>
                 </div>
             </div>
-            <div class="col-4">
+            <div class="col-md-4 col-sm-12">
                 <div class="card" style="min-height: 500px;">
                     <div class="card-body">
                         <h4>ĐƠN HÀNG</h4>
@@ -130,7 +135,7 @@
                                     <?php $i = 1; ?>
                                     @foreach ($orderDetails as $order_detail)
                                         <tr>
-                                            <td scope='row'>
+                                            <td>
                                                 <?php
                                                 echo $i;
                                                 $i += 1;
@@ -143,22 +148,12 @@
                                 </tbody>
                             </table>
 
-                            <form action="{{ route('admin.table.order.confirm', ['table' => $table]) }}" method="post">
-                                @csrf
-                                <div class="modal-body">
-                                    <div class="form-group">
-                                        <label for="order-note">Ghi chú</label>
-                                        <textarea class="form-control" id="order-note" name="note">
-                                            <?= $order_detail->order->note ?>
-                                        </textarea>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-default m-r-10"
-                                            data-dismiss="modal">HUỶ</button>
-                                        <button type="submit" class="btn btn-primary">XÁC NHẬN</button>
-                                    </div>
+                            <div class="modal-body">
+                                <div class="modal-footer">
+                                    <a href="{{ route('employee.table.payment', ['table' => $table]) }}" class="btn btn-primary">THANH TOÁN</a>
                                 </div>
-                            </form>
+                            </div>
+
                         @endif
                     </div>
                 </div>

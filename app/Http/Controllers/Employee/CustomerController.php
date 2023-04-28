@@ -1,21 +1,17 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Employee;
 
 use App\Http\Controllers\Controller;
 use App\Models\Bill;
-use App\Models\Item;
 use App\Models\Menu;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Table;
-use DateTime;
-use Facade\Ignition\Tabs\Tab;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\View\View;
 
-class OrderController extends Controller
+class CustomerController extends Controller
 {
     private $table;
     private $menu;
@@ -35,7 +31,7 @@ class OrderController extends Controller
     public function showTableList()
     {
         $tables = $this->table->all();
-        return view('admin.pages.order.table', compact('tables'));
+        return view('employee.pages.order.table', compact('tables'));
     }
 
     public function selectItems($table)
@@ -50,7 +46,7 @@ class OrderController extends Controller
                 ->get();
         else
             $orderDetails = [];
-        return view('admin.pages.order.items-list', compact('menus', 'table', 'orderDetails'));
+        return view('employee.pages.order.items-list', compact('menus', 'table', 'orderDetails'));
     }
 
     public function addToCart($table, Request $request)

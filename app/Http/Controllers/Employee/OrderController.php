@@ -1,19 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Employee;
 
 use App\Http\Controllers\Controller;
 use App\Models\Bill;
-use App\Models\Item;
+use App\Models\Customer;
 use App\Models\Menu;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Table;
-use DateTime;
-use Facade\Ignition\Tabs\Tab;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\View\View;
 
 class OrderController extends Controller
 {
@@ -22,20 +19,23 @@ class OrderController extends Controller
     private $order;
     private $orderDetail;
 
+    private $customer;
+
     private  $bill;
-    public function __construct(Table $table, Menu $menu, Order $order, OrderDetail $orderDetail, Bill $bill)
+    public function __construct(Table $table, Menu $menu, Order $order, OrderDetail $orderDetail, Bill $bill, Customer $customer)
     {
         $this->table = $table;
         $this->menu = $menu;
         $this->order = $order;
         $this->orderDetail = $orderDetail;
         $this->bill = $bill;
+        $this->customer = $customer;
     }
 
     public function showTableList()
     {
         $tables = $this->table->all();
-        return view('admin.pages.order.table', compact('tables'));
+        return view('employee.pages.order.table', compact('tables'));
     }
 
     public function selectItems($table)
@@ -50,7 +50,7 @@ class OrderController extends Controller
                 ->get();
         else
             $orderDetails = [];
-        return view('admin.pages.order.items-list', compact('menus', 'table', 'orderDetails'));
+        return view('employee.pages.order.items-list', compact('menus', 'table', 'orderDetails'));
     }
 
     public function addToCart($table, Request $request)
@@ -100,33 +100,58 @@ class OrderController extends Controller
     {
         $order = $this->order->where('table_id', $table)->where('status', false)->first();
 
-        $amount = 0;
-        foreach ($order->order_details as $orderDetail)
-        {
-            $amount += $orderDetail->item->price * $orderDetail->quantity;
-        }
-
-        return view('admin.pages.order.payment', compact('order','amount'));
-    }
-    public function comfirmPayment($table)
-    {
-        $order = $this->order->where('table_id', $table)->where('status', false)->first();
+        $orderDetails = OrderDetail::select(DB::raw('SUM(quantity) as total_quantity'), 'order_id', 'item_id')->where('order_id', $order->id)
+            ->groupBy('item_id', 'order_id')
+            ->get();
 
         $amount = 0;
-        foreach ($order->order_details as $orderDetail)
+
+
+        foreach ($orderDetails as $orderDetail)
         {
-            $amount += $orderDetail->item->price * $orderDetail->quantity;
+            $amount += $orderDetail->item->price * $orderDetail->total_quantity;
         }
 
-        $newBill = $this->bill->create([
+
+        $bill = $this->bill->create([
             'bill_date' => date('Y-m-d H:i:s'),
-            'tax' => 0.1,
+            'tax' => ($amount * 0.1) ,
             'discount' => 0,
-            'total' => $amount * 0.1,
+            'total' => ($amount * 0.1 + $amount),
             'payment_method' => "Tiền mặt",
+            'order_id' => $order->id,
             'customer_id' => null,
+            'user_id' => session()->get('user_id')
         ]);
 
-        return view('admin.pages.order.payment', compact('newBill', 'amount'));
+        return view('employee.pages.order.payment', compact('bill','amount', 'table', 'orderDetails'));
+    }
+    public function comfirmPayment($table, Request $request)
+    {
+        $order = $this->order->where('table_id', $table)->where('status', false)->first()->update([
+            'status' => true,
+        ]);
+
+        $cusomer = $this->customer->where('phone', $request->phone)->first();
+
+        if ($cusomer)
+            $order->update([
+                'customer_id' => $cusomer->id,
+            ]);
+        else
+        {
+            $cusomer = $this->customer->create([
+                'name' => $request->name,
+                'phone' => $request->phone,
+            ]);
+            $order->update([
+                'customer_id' => $cusomer->id,
+            ]);
+        }
+        $this->table->find($table)->update([
+            'status' => true,
+        ]);
+
+        return redirect('/employee/table');
     }
 }

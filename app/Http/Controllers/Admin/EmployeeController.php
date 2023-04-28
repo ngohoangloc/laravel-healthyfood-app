@@ -31,7 +31,7 @@ class EmployeeController extends Controller
 
     public function create(Request $request)
     {
-        if (!$this->account->where('username', $request->username)) {
+        if (!$this->account->where('username', $request->username)->first()) {
             $user = $this->account->create([
                 'username' => $request->username,
                 'password' => Hash::make($request->password),
@@ -43,6 +43,7 @@ class EmployeeController extends Controller
                 'address' => $request->address,
                 'phone' => $request->phone,
                 'account_id' => $user->id,
+                'role_id' => $request->role_id,
             ]);
         }
         return redirect()->route('admin.employee.index');
@@ -53,7 +54,8 @@ class EmployeeController extends Controller
         $this->employee->find($id)->update([
             'name' => $request->name,
             'address' => $request->address,
-            'phone' => $request->phone
+            'phone' => $request->phone,
+            'role_id' => $request->role_id
         ]);
 
         return redirect()->route('admin.employee.index');

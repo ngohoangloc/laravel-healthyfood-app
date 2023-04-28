@@ -133,6 +133,18 @@
                                                         <input type="text" class="form-control" id="employee-phone"
                                                             name="phone" value="{{ $employee->phone }}" required>
                                                     </div>
+                                                    <div class="form-group">
+                                                        <label for="item-name">Vị trí làm việc</label>
+                                                        <select class="select form-control" name="role_id">
+                                                            <option value="0">Lựa chọn...</option>
+                                                            @foreach ($roles as $role)
+                                                                <option value="{{ $role->id }}"
+                                                                    <?= $role->id == $employee->role->id ? 'selected' : '' ?>>
+                                                                    {{ $role->name }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-default m-r-10"

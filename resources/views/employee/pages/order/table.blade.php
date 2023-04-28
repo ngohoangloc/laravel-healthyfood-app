@@ -1,4 +1,4 @@
-@extends('admin.admin')
+@extends('employee.employee')
 
 @section('title')
     <title>Gọi món | Healthy Food</title>
@@ -21,12 +21,12 @@
                     @foreach ($tables as $table)
                         <li>
                             @if ($table->status)
-                                <a href="{{ route('admin.table.order', ['table' => $table->id]) }}">
+                                <a href="{{ route('employee.table.order', ['table' => $table->id]) }}">
                                     <div class="icon-wrap"><i class="fa-regular fa-couch"></i></div><span class="icon-text">
                                         {{ $table->name }} </span>
                                 </a>
                             @else
-                                <a href="{{ route('admin.table.order', ['table' => $table->id]) }}">
+                                <a href="{{ route('employee.table.order', ['table' => $table->id]) }}">
                                     <div class="icon-wrap"><i class="fa-solid fa-couch"></i></div><span class="icon-text">
                                         {{ $table->name }} </span>
                                 </a>

@@ -21,7 +21,7 @@ class AuthController extends Controller
             if (session()->get('role') == 1)
                 return redirect('/admin');
             else
-                return view('404');
+                return redirect('404');
         } else
             return view('auth.login');
     }
@@ -39,13 +39,14 @@ class AuthController extends Controller
         if (!empty($account))
             if (Hash::check($credentials['password'], $account->password)) {
                 session()->put('user', $account->username);
-                session()->put('user_id', $account->id);
+                session()->put('user_id', $account->user->id);
                 session()->put('role', $account->user->role_id);
 
-                if (session()->get('role') == 1)
+                if (session()->get('role') == 1 || session()->get('role') == 2)
                     return redirect('/admin');
                 else
-                    return view('404');
+                    if (session()->get('role') == 3)
+                        return redirect('/employee/table');
             } else {
                 return redirect('/')->with('warning', 'Mật khẩu không chính xác!');
             }

@@ -4,9 +4,8 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
-class CheckAdmin
+class CheckEmployee
 {
     /**
      * Handle an incoming request.
@@ -17,7 +16,7 @@ class CheckAdmin
      */
     public function handle(Request $request, Closure $next)
     {
-        if (session()->get('role') && session()->get('role') == 1 || session()->get('role') == 2)
+        if (session()->get('role') && session()->get('role') == 3)
             return $next($request);
         return redirect('/');
     }

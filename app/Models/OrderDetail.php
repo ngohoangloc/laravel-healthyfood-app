@@ -18,10 +18,10 @@ class OrderDetail extends Model
         'id',
         'quantity',
         'status', //0 = Đang gọi món; 1 = đã gọi món, món chưa được chế biến; 2 = món đang được chế biến; 3 = món đã được chế biến
+        'note',
         'order_id',
         'item_id'
     ];
-
 
     public function order()
     {

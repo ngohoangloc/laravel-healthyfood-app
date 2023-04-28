@@ -78,9 +78,9 @@
                     <li class="">
                         <a href="/admin/role">Vai trò</a>
                     </li>
-                    <li class="">
-                        <a href="/admin/permission">Quyền truy cập</a>
-                    </li>
+{{--                    <li class="">--}}
+{{--                        <a href="/admin/permission">Quyền truy cập</a>--}}
+{{--                    </li>--}}
                     <li class="">
                         <a href="/admin/account">Tài khoản</a>
                     </li>

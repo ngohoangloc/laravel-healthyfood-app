@@ -31,4 +31,8 @@ class User extends Model
     {
         return $this->belongsTo(Role::class);
     }
+    public function bills()
+    {
+        return $this->hasMany(Bill::class);
+    }
 }

@@ -131,13 +131,58 @@ Route::prefix('admin')->middleware(\App\Http\Middleware\CheckAdmin::class)->grou
             'as' => 'admin.table.order',
             'uses' => 'App\Http\Controllers\Admin\OrderController@addToCart'
         ]);
-        Route::post('/order/confirm/{table}', [
-            'as' => 'admin.table.order.confirm',
-            'uses' => 'App\Http\Controllers\Admin\OrderController@confirmOrder'
-        ]);
-        Route::get('/payment/{table}', [
-            'as' => 'admin.table.payment',
+        Route::post('/order/payment/{table}', [
+            'as' => 'admin.table.order.payment',
             'uses' => 'App\Http\Controllers\Admin\OrderController@payment'
+        ]);
+    });
+});
+
+
+Route::prefix('employee')->middleware(\App\Http\Middleware\CheckEmployee::class)->group(function () {
+
+    Route::get('/', 'App\Http\Controllers\Employee\DashboardController@index');
+
+    Route::prefix('customer')->group(function () {
+        Route::get('/', [
+            'as' => 'employee.customer.index',
+            'uses' => 'App\Http\Controllers\Employee\CustomerController@index'
+        ]);
+
+        Route::post('/create', [
+            'as' => 'employee.customer.create',
+            'uses' => 'App\Http\Controllers\Employee\CustomerController@create'
+        ]);
+        Route::post('/update/{id}', [
+            'as' => 'employee.customer.update',
+            'uses' => 'App\Http\Controllers\Employee\CustomerController@update'
+        ]);
+        Route::post('/delete/{id}', [
+            'as' => 'employee.customer.delete',
+            'uses' => 'App\Http\Controllers\Employee\CustomerController@delete'
+        ]);
+    });
+
+    Route::prefix('table')->group(function () {
+        Route::get('/', [
+            'as' => 'employee.table.index',
+            'uses' => 'App\Http\Controllers\Employee\OrderController@showTableList'
+        ]);
+        Route::get('/order/{table}', [
+            'as' => 'employee.table.item',
+            'uses' => 'App\Http\Controllers\Employee\OrderController@selectItems'
+        ]);
+        Route::post('/order/{table}', [
+            'as' => 'employee.table.order',
+            'uses' => 'App\Http\Controllers\Employee\OrderController@addToCart'
+        ]);
+        Route::get('/order/payment/{table}', [
+            'as' => 'employee.table.payment',
+            'uses' => 'App\Http\Controllers\Employee\OrderController@payment'
+        ]);
+        Route::post('/order/payment/{table}', [
+            'as' => 'employee.table.payment',
+            'uses' => 'App\Http\Controllers\Employee\OrderController@comfirmPayment'
         ]);
     });
 });
